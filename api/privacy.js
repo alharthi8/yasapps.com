@@ -5,6 +5,7 @@ export default async function handler(req,res){
   if(req.method!=='POST'){res.setHeader('Allow','POST');return res.status(405).json({error:'Please use the privacy request form.'});}
   const allowed=new Set(['https://yasapps.com','https://www.yasapps.com',process.env.SITE_URL]);
   if(process.env.VERCEL_URL)allowed.add(`https://${process.env.VERCEL_URL}`);
+  if(process.env.NODE_ENV!=='production')allowed.add('http://localhost:4173');
   if(req.headers.origin&&!allowed.has(req.headers.origin))return res.status(403).json({error:'Please submit the form on yasapps.com.'});
   if(Number(req.headers['content-length']||0)>2048)return res.status(413).json({error:'The request is too large.'});
   let body;try{body=typeof req.body==='string'?JSON.parse(req.body):req.body;}catch{return res.status(400).json({error:'Please complete the form.'});}
