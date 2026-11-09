@@ -1,0 +1,12 @@
+node_modules/
+.env*
+!.env.example
+.vercel/
+test-results/
+*.log
+public/downloads/*.exe
+scripts/configure-vercel.mjs
+scripts/verify-registration.mjs
+
+.vercel
+.env*
