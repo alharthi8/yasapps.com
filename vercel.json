@@ -3,6 +3,11 @@
   "framework": null,
   "buildCommand": "npm run build",
   "outputDirectory": "public",
+  "redirects": [
+    { "source": "/:path*", "has": [{ "type": "host", "value": "www.yasapps.com" }], "destination": "https://yasapps.com/:path*", "permanent": true },
+    { "source": "/downloads/Yas-Browser-0.4.5-Windows-x64.exe", "destination": "https://github.com/alharthi8/yas-browser/releases/download/v0.4.5/Yas-Browser-0.4.5-Windows-x64.exe", "permanent": false },
+    { "source": "/downloads/Yas-Mail-0.3.0-Windows-x64.exe", "destination": "https://github.com/alharthi8/yas-mail/releases/download/v0.3.0/Yas-Mail-0.3.0-Windows-x64.exe", "permanent": false }
+  ],
   "functions": { "api/*.js": { "maxDuration": 30 } },
   "headers": [
     { "source": "/(.*)", "headers": [

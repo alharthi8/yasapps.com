@@ -21,6 +21,16 @@ font_dir = Path('C:/Windows/Fonts')
 def font(size, bold=False):
     return ImageFont.truetype(str(font_dir / ('segoeuib.ttf' if bold else 'segoeui.ttf')), size)
 
+wordmark = Image.new('RGBA', (1200, 320), (0, 0, 0, 0))
+wordmark.paste(svg('yasapps-symbol.svg', 280), (10, 10), svg('yasapps-symbol.svg', 280))
+wd = ImageDraw.Draw(wordmark)
+wd.text((322, 67), 'yas', font=font(172, True), fill='#152544')
+w1 = wd.textlength('yas', font=font(172, True))
+wd.text((322+w1-6, 67), 'apps', font=font(172), fill='#52617A')
+w2 = wd.textlength('apps', font=font(172))
+wd.text((322+w1+w2-14, 67), '.', font=font(172, True), fill='#2563EB')
+wordmark.save(out / 'yasapps-wordmark.png')
+
 board = Image.new('RGB', (1600, 1040), '#F4F7FC')
 d = ImageDraw.Draw(board)
 d.text((72, 49), 'YAS APPS / PARENT IDENTITY', font=font(15, True), fill='#73819A')
