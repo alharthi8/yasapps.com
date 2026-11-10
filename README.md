@@ -12,9 +12,9 @@ Deploy this directory with framework preset **Other**. `vercel.json` sets the bu
 
 ## Releases
 
-Windows preview installers are hosted as versioned GitHub Release assets in `alharthi8/yas-browser` and `alharthi8/yas-mail`; `public/downloads/SHA256SUMS.txt` records their hashes. Local copies are ignored by Git. Check installer version, safety, and signing before replacement. These previews are unsigned. No macOS binary exists yet. Do not add macOS download buttons until tested packages exist.
+Windows installers and experimental Apple Silicon macOS ZIPs are hosted as pinned, versioned GitHub Release assets in alharthi8/yas-browser and alharthi8/yas-mail. public/downloads/SHA256SUMS.txt records download hashes. Mac previews use separate macos-vVERSION prereleases and signed full-bundle updates. They are ad-hoc signed, not Apple notarized. Intel is not available. Native launch, Mail Keychain, signed installation, and damaged-package rejection checks passed before linking these packages. public/macos.html describes installation and remaining testing limits.
 
-The public app source and Windows preview releases are published at https://github.com/alharthi8/yas-browser and https://github.com/alharthi8/yas-mail. The source snapshots are v0.4.5 and v0.3.0, respectively; ongoing development in the original local folders is separate. Marketing copy does not claim a quantified performance advantage. The performance page records implemented behavior and benchmark limitations.
+Public app source is published at https://github.com/alharthi8/yas-browser and https://github.com/alharthi8/yas-mail. macos/ contains each separate Mac implementation; Windows source remains in the repository root. The website links Windows Browser 0.4.6/Mail 0.3.1 and Mac Browser 0.4.7/Mail 0.3.2. Marketing does not claim a quantified performance advantage. The performance page explains architecture and benchmark limitations.
 
 ## Email registration
 

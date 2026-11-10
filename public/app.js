@@ -3,14 +3,19 @@ const nav = document.querySelector('#navigation');
 menu?.addEventListener('click', () => { const open = menu.getAttribute('aria-expanded') !== 'true'; menu.setAttribute('aria-expanded', String(open)); menu.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation'); nav.classList.toggle('open', open); });
 nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); menu.setAttribute('aria-expanded', 'false'); menu.setAttribute('aria-label', 'Open navigation'); }));
 
+let currentPlatform = /Mac/i.test(navigator.platform) ? "macos" : "windows";
 function setPlatform(platform) {
+  currentPlatform = platform;
   document.querySelectorAll('[data-platform]').forEach(button => { const selected = button.dataset.platform === platform; button.classList.toggle('selected', selected); button.setAttribute('aria-pressed', String(selected)); });
   document.querySelectorAll('.windows-download').forEach(a => a.hidden = platform !== 'windows');
   document.querySelectorAll('.mac-download').forEach(a => a.hidden = platform !== 'macos');
-  document.querySelectorAll('.release-meta').forEach(meta => { const card = meta.closest('[data-download-card]').dataset.downloadCard; meta.children[0].textContent = platform === 'macos' ? 'In the roadmap' : card === 'browser' ? 'v0.4.6 preview' : 'v0.3.1 preview'; meta.children[1].textContent = platform === 'macos' ? 'macOS · Not yet available' : card === 'browser' ? 'Windows x64 · 8.3 MB' : 'Windows x64 · 5.3 MB'; });
+  document.querySelectorAll('[data-platform-note]').forEach(note => note.hidden = note.dataset.platformNote !== platform);
+  document.querySelectorAll('[data-release-details]').forEach(button => {button.dataset.dialog = button.dataset.releaseDetails + (platform === 'macos' ? '-mac-details' : '-details');});
+  document.querySelectorAll('.release-meta').forEach(meta => { const card = meta.closest('[data-download-card]').dataset.downloadCard; meta.children[0].textContent = platform === 'macos' ? (card === 'browser' ? 'v0.4.7 experimental' : 'v0.3.2 experimental') : card === 'browser' ? 'v0.4.6 preview' : 'v0.3.1 preview'; meta.children[1].textContent = platform === 'macos' ? 'Apple Silicon · ZIP · Not notarized' : card === 'browser' ? 'Windows x64 · 8.3 MB' : 'Windows x64 · 5.3 MB'; });
 }
+setPlatform(currentPlatform);
 document.querySelectorAll('[data-platform]').forEach(button => button.addEventListener('click', () => setPlatform(button.dataset.platform)));
-document.querySelectorAll('[data-select-product]').forEach(a => a.addEventListener('click', () => { setPlatform('windows'); document.querySelectorAll('[data-download-card]').forEach(card => card.classList.toggle('highlight', card.dataset.downloadCard === a.dataset.selectProduct)); }));
+document.querySelectorAll('[data-select-product]').forEach(a => a.addEventListener('click', () => { setPlatform(currentPlatform); document.querySelectorAll('[data-download-card]').forEach(card => card.classList.toggle('highlight', card.dataset.downloadCard === a.dataset.selectProduct)); }));
 document.querySelectorAll('[data-register-product]').forEach(a => a.addEventListener('click', () => { document.querySelector('#platform').value = 'macos'; document.querySelectorAll('[name=product]').forEach(input => input.checked = input.value === a.dataset.registerProduct); }));
 
 function openDialog(id) { const dialog = document.getElementById(id); if (dialog instanceof HTMLDialogElement && !dialog.open) dialog.showModal(); }

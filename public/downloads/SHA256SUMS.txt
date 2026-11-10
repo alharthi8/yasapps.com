@@ -1,2 +1,4 @@
 4bded9ffebb3f3e42eb00fce97b7c0c6e42a51999a33c60a076d1154224eb7af  Yas-0.4.6-Setup-x64.exe
 549ab1031d3732fdb6c8999bac25980fa3acf1d1bfd6d6212ae142767153ea78  Yas.Mail_0.3.1_x64-setup.exe
+6e21d9c93a58c7be1b769ac1a36fddc6f73ce0889bc2c417582ff65d6775e757  Yas-Browser-0.4.7-macOS-Apple-Silicon-preview.zip
+ed038e0dae0c8747cf7d3473ebbd6375444c0b0fd76f8d105b0f58f514fea9a0  Yas-Mail-0.3.2-macOS-Apple-Silicon-preview.zip
