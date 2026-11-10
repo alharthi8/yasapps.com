@@ -11,12 +11,12 @@ function setPlatform(platform) {
   document.querySelectorAll('.mac-download').forEach(a => a.hidden = platform !== 'macos');
   document.querySelectorAll('[data-platform-note]').forEach(note => note.hidden = note.dataset.platformNote !== platform);
   document.querySelectorAll('[data-release-details]').forEach(button => {button.dataset.dialog = button.dataset.releaseDetails + (platform === 'macos' ? '-mac-details' : '-details');});
-  document.querySelectorAll('.release-meta').forEach(meta => { const card = meta.closest('[data-download-card]').dataset.downloadCard; meta.children[0].textContent = platform === 'macos' ? (card === 'browser' ? 'v0.4.7 experimental' : 'v0.3.2 experimental') : card === 'browser' ? 'v0.4.6 preview' : 'v0.3.1 preview'; meta.children[1].textContent = platform === 'macos' ? 'Apple Silicon · ZIP · Not notarized' : card === 'browser' ? 'Windows x64 · 8.3 MB' : 'Windows x64 · 5.3 MB'; });
+  document.querySelectorAll('.release-meta').forEach(meta => { meta.children[0].textContent = "Coming soon"; meta.children[1].textContent = (platform === "macos" ? "macOS" : "Windows") + " · Testing in progress"; });
 }
 setPlatform(currentPlatform);
 document.querySelectorAll('[data-platform]').forEach(button => button.addEventListener('click', () => setPlatform(button.dataset.platform)));
 document.querySelectorAll('[data-select-product]').forEach(a => a.addEventListener('click', () => { setPlatform(currentPlatform); document.querySelectorAll('[data-download-card]').forEach(card => card.classList.toggle('highlight', card.dataset.downloadCard === a.dataset.selectProduct)); }));
-document.querySelectorAll('[data-register-product]').forEach(a => a.addEventListener('click', () => { document.querySelector('#platform').value = 'macos'; document.querySelectorAll('[name=product]').forEach(input => input.checked = input.value === a.dataset.registerProduct); }));
+document.querySelectorAll('[data-register-product]').forEach(a => a.addEventListener('click', () => { document.querySelector('#platform').value = currentPlatform; document.querySelectorAll('[name=product]').forEach(input => input.checked = input.value === a.dataset.registerProduct); }));
 
 function openDialog(id) { const dialog = document.getElementById(id); if (dialog instanceof HTMLDialogElement && !dialog.open) dialog.showModal(); }
 document.querySelectorAll('[data-dialog]').forEach(button => button.addEventListener('click', () => openDialog(button.dataset.dialog)));

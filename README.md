@@ -27,3 +27,7 @@ See `UPDATE-PLAN.md` for the planned signed release pipeline. Website updates an
 ## Privacy requests
 
 The privacy page stores private access, deletion, and unsubscribe requests in `privacy_requests`. Review pending requests in the Neon console and verify ownership as appropriate before disclosing or changing personal data. No public list or automatic email is exposed.
+
+## Download hold
+
+All website downloads are marked Coming soon while release testing is completed. Download buttons are disabled, release dialogs contain no installer links, and legacy website installer URLs redirect to release status. Email registration remains available. GitHub source and existing release infrastructure are retained. Re-enable downloads only after testing is finished and release is authorized.
