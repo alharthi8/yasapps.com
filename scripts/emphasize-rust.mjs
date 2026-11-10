@@ -1,0 +1,14 @@
+import fs from 'node:fs/promises';
+let html=await fs.readFile('public/index.html','utf8');
+html=html.replace('Yas Apps — A lighter way through your day.','Yas Apps — Built with Rust. Made in the UAE.');
+html=html.replace('Yas Apps — Built in the UAE. Open to the world.','Yas Apps — Built with Rust. Made in the UAE.');
+html=html.replace('Your browser. Your inbox. A little clearer. Discover Yas desktop apps built with Rust.','Open-source browser and email apps with Rust at their core. Designed and built in the UAE by Appana Technologies.');
+html=html.replace('<h1>Your day.<br>A little <span class="blue">clearer.</span></h1>','<h1><span class="rust-headline">Built with <span class="blue">Rust.</span></span>Made for you.</h1>');
+html=html.replace('Less clutter between you and what matters. Meet an open-source browser and inbox built with <strong>Rust</strong>—and a fresh perspective.','Your browser. Your inbox. <strong>Rust at the core.</strong> Discover open-source desktop apps designed and built in the UAE by Appana Technologies, with focused interfaces and thoughtful resource use.');
+html=html.replace('TWO APPS. ONE CLEARER DAY.','TWO APPS. A RUST-POWERED CORE.');
+html=html.replace('<span class="pill">PREVIEW</span>','<span class="pill">BUILT WITH RUST</span>');
+html=html.replace('<span class="pill">PREVIEW</span>','<span class="pill">BUILT WITH RUST</span>');
+html=html.replace('THE EVERYDAY, RECONSIDERED','RUST-POWERED EVERYDAY ESSENTIALS');
+html=html.replace('THOUGHTFUL BY DESIGN','WHY WE BUILD WITH RUST');
+html=html.replace('Rust gives us control over how our apps use your device. The details make the difference.','Rust gives us control over memory and how our desktop core runs. Paired with focused design, it is the foundation of both Yas apps.');
+await fs.writeFile('public/index.html',html);
