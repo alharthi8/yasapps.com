@@ -1,15 +1,12 @@
-# Signed desktop releases
+# Signed desktop releases — Windows GitHub updates
 
-1. Prepare public `alharthi8` repositories after a source/secret and license review.
-2. Generate an app-specific signing keypair; back up the private key outside source control and store CI access as a GitHub Actions secret. Only public verification keys belong in app source.
-3. For Yas Mail, configure `YAS_MAIL_UPDATE_MANIFEST_URL` and `YAS_MAIL_UPDATE_PUBLIC_KEY` for builds. Development source currently contains Tauri updater support; existing distributed previews are not established as update-enabled.
-4. Publish a bootstrap release that contains the updater and public key. Existing users install it manually once.
-5. GitHub Actions builds on a version tag, tests, signs native installers, generates updater signatures, and uploads versioned assets to GitHub Releases. macOS also requires Developer ID signing/notarization and tested Apple Silicon/Intel targets.
-6. Publish a Tauri-compatible `latest.json` only after all intended platform artifacts and their signatures are uploaded. Keep beta/stable feeds separate. Protect release permissions.
-7. Point the app's HTTPS feed to the real GitHub release manifest or a stable yasapps.com route. Don't ship placeholder feeds or unsigned packages.
-8. App checks on launch and on demand, shows notes, downloads the correct platform build, verifies the signature, and offers install/restart. Preserve user data, avoid interrupting sends/downloads, and handle interrupted downloads and invalid signatures.
-9. Yas Browser is Wry/Tao rather than Tauri. Implement a verified Windows updater/helper and a suitable macOS mechanism; do not assume the Tauri plugin can simply be enabled there.
+Both public app repositories now include `ota.rs`, app-specific `release.pub` verification keys, and `.github/workflows/release.yml`. The implementation uses self_update/self-replace with mandatory zipsign Ed25519 verification and GitHub checksum checking, rather than separate updater formats for each app. The steps below record the original design; this implementation supersedes the proposed Tauri-only integration.
 
-OS publisher signing and updater artifact signing are different. Both are required for a polished release. Keep an older signed release available, but don't bypass version/signature checks to force a rollback; normally publish a repaired higher version.
+Users install the updater-enabled bootstrap once: Browser 0.4.6 or Mail 0.3.1. Then use Settings → Check for app updates, or the startup check. Users approve downloading and applying an update; the current session stays open. Fully quit and reopen when convenient. Browser users with tray downloads need Exit Yas. User-data directories are not replaced.
 
-Current source inspected: Yas Mail `src-tauri/src/release.rs`; Yas Browser `src/main.rs`. This plan does not modify either product while their other chats are actively editing them.
+Maintainers bump Cargo versions (and Browser branding/yas.rc / Mail tauri.conf.json), commit, and push a matching vVERSION tag to the app repository. Actions builds/tests, signs a version-bound ZIP, checks that the compiled app accepts it and rejects a corrupted copy, uploads a draft with the bootstrap installer, and publishes it as latest. Only published latest releases are offered. Update the website's version/size/download links from verified release metadata for new visitors.
+
+The per-repository GitHub Actions signing secret is YAS_UPDATE_SIGNING_KEY. Private backups are outside Git in the Windows user's .codex/secrets/yas-updates directory, restricted to that owner and SYSTEM. Keep them backed up; do not publish or casually rotate them. Installed apps embed the corresponding public key. Version-bound signature contexts prevent relabeling an older signed package as a newer one.
+
+The current update format replaces the executable in writable per-user installations or portable copies. New runtime dependencies or installation-layout changes need a full installer. OS publisher signing is separate and is not configured. macOS updates remain unavailable until a port, signed/notarized packaging, and update tests exist.
+

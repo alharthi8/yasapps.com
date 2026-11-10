@@ -7,7 +7,7 @@ function setPlatform(platform) {
   document.querySelectorAll('[data-platform]').forEach(button => { const selected = button.dataset.platform === platform; button.classList.toggle('selected', selected); button.setAttribute('aria-pressed', String(selected)); });
   document.querySelectorAll('.windows-download').forEach(a => a.hidden = platform !== 'windows');
   document.querySelectorAll('.mac-download').forEach(a => a.hidden = platform !== 'macos');
-  document.querySelectorAll('.release-meta').forEach(meta => { const card = meta.closest('[data-download-card]').dataset.downloadCard; meta.children[0].textContent = platform === 'macos' ? 'In the roadmap' : card === 'browser' ? 'v0.4.5 preview' : 'v0.3.0 preview'; meta.children[1].textContent = platform === 'macos' ? 'macOS · Not yet available' : card === 'browser' ? 'Windows x64 · 7.1 MB' : 'Windows x64 · 4.7 MB'; });
+  document.querySelectorAll('.release-meta').forEach(meta => { const card = meta.closest('[data-download-card]').dataset.downloadCard; meta.children[0].textContent = platform === 'macos' ? 'In the roadmap' : card === 'browser' ? 'v0.4.6 preview' : 'v0.3.1 preview'; meta.children[1].textContent = platform === 'macos' ? 'macOS · Not yet available' : card === 'browser' ? 'Windows x64 · 8.3 MB' : 'Windows x64 · 5.3 MB'; });
 }
 document.querySelectorAll('[data-platform]').forEach(button => button.addEventListener('click', () => setPlatform(button.dataset.platform)));
 document.querySelectorAll('[data-select-product]').forEach(a => a.addEventListener('click', () => { setPlatform('windows'); document.querySelectorAll('[data-download-card]').forEach(card => card.classList.toggle('highlight', card.dataset.downloadCard === a.dataset.selectProduct)); }));
