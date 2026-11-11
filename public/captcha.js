@@ -19,7 +19,8 @@ export async function mountCaptcha(container, { action, cdata, onChange }) {
   const { siteKey } = await response.json();
   if (typeof siteKey !== 'string' || !siteKey) throw new Error('Verification is temporarily unavailable.');
   await loadScript();
-  await new Promise(resolve => window.turnstile.ready(resolve));
+  // The script's load event is the readiness signal for an async embed.
+  if (typeof window.turnstile?.render !== 'function') throw new Error('Verification could not start. Please reload the page.');
   let token = '';
   const change = (value, message) => { token = value; onChange(value, message); };
   const widget = window.turnstile.render(container, {
