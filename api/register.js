@@ -2,6 +2,10 @@ import { neon } from '@neondatabase/serverless';
 import { createHmac } from 'node:crypto';
 import { resolveMx } from 'node:dns/promises';
 import { validateRegistration } from '../lib/registration.js';
+import { verifyCaptcha } from '../lib/captcha.js';
+import { parseBoundedJson } from '../lib/request-body.js';
+
+export const config = { api: { bodyParser: { sizeLimit: '4kb' } } };
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
@@ -11,11 +15,14 @@ export default async function handler(req, res) {
   if (process.env.NODE_ENV !== 'production') allowed.add('http://localhost:4173');
   if (req.headers.origin && !allowed.has(req.headers.origin)) return res.status(403).json({ error: 'Please register on yasapps.com.' });
   if (Number(req.headers['content-length'] || 0) > 4096) return res.status(413).json({ error: 'The registration is too large.' });
-  let body;
-  try { body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body; } catch { return res.status(400).json({ error: 'Please complete the registration form.' }); }
-  const parsed = validateRegistration(body);
+  const payload = parseBoundedJson(req.body, 4096);
+  if (payload.tooLarge) return res.status(413).json({ error: 'The registration is too large.' });
+  if (payload.invalid) return res.status(400).json({ error: 'Please complete the registration form.' });
+  const parsed = validateRegistration(payload.value);
   if (parsed.bot) return res.status(200).json({ message: 'Your interest has been registered.' });
   if (parsed.error) return res.status(400).json({ error: parsed.error });
+  const verification = await verifyCaptcha(payload.value.captchaToken, 'register');
+  if (!verification.ok) return res.status(verification.status).json({ error: verification.error });
   if (!process.env.DATABASE_URL || !process.env.RATE_LIMIT_SALT) return res.status(503).json({ error: 'Registration is temporarily unavailable. Please try again shortly.' });
   try {
     const sql = neon(process.env.DATABASE_URL);

@@ -1,5 +1,7 @@
 import { neon } from '@neondatabase/serverless';
 import { createHmac } from 'node:crypto';
+import { parseBoundedJson } from '../lib/request-body.js';
+export const config = { api: { bodyParser: { sizeLimit: '2kb' } } };
 export default async function handler(req,res){
   res.setHeader('Cache-Control','no-store');
   if(req.method!=='POST'){res.setHeader('Allow','POST');return res.status(405).json({error:'Please use the privacy request form.'});}
@@ -8,8 +10,10 @@ export default async function handler(req,res){
   if(process.env.NODE_ENV!=='production')allowed.add('http://localhost:4173');
   if(req.headers.origin&&!allowed.has(req.headers.origin))return res.status(403).json({error:'Please submit the form on yasapps.com.'});
   if(Number(req.headers['content-length']||0)>2048)return res.status(413).json({error:'The request is too large.'});
-  let body;try{body=typeof req.body==='string'?JSON.parse(req.body):req.body;}catch{return res.status(400).json({error:'Please complete the form.'});}
-  if(!body||typeof body!=='object')return res.status(400).json({error:'Please complete the form.'});
+  const payload=parseBoundedJson(req.body,2048);
+  if(payload.tooLarge)return res.status(413).json({error:'The request is too large.'});
+  if(payload.invalid)return res.status(400).json({error:'Please complete the form.'});
+  const body=payload.value;
   if(body.website)return res.status(200).json({message:'Your privacy request has been received.'});
   const email=typeof body.email==='string'?body.email.trim().toLowerCase():'';
   if(email.length>254||!/^[^\s@\x00-\x1f]+@[^\s@.]+(?:\.[^\s@.]+)+$/.test(email)||!['delete','unsubscribe','access'].includes(body.requestType))return res.status(400).json({error:'Enter your email and choose a request type.'});

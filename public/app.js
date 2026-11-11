@@ -23,20 +23,46 @@ document.querySelectorAll('[data-dialog]').forEach(button => button.addEventList
 document.querySelectorAll('a[href="#browser-details"],a[href="#mail-details"]').forEach(a => a.addEventListener('click', event => { event.preventDefault(); openDialog(a.hash.slice(1)); }));
 document.querySelectorAll('dialog').forEach(dialog => { dialog.querySelector('.close-dialog')?.addEventListener('click', () => dialog.close()); dialog.addEventListener('click', event => { const rect = dialog.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close(); }); });
 
+document.querySelectorAll('dialog a[href="#register"]').forEach(link => link.addEventListener('click', event => {
+  event.preventDefault();
+  const dialog = link.closest('dialog');
+  const product = dialog.id.startsWith('browser') ? 'browser' : 'mail';
+  document.querySelectorAll('[name=product]').forEach(input => input.checked = input.value === product);
+  document.querySelector('#platform').value = currentPlatform;
+  dialog.close();
+  location.hash = 'register';
+  document.querySelector('#email').focus({ preventScroll: true });
+}));
+
 const form = document.querySelector('#registration-form');
+let registrationCaptcha;
+let registrationSubmitting = false;
+if (form) {
+  const submit = form.querySelector('button[type=submit]');
+  const verificationStatus = document.querySelector('#registration-captcha-status');
+  submit.disabled = true;
+  import('/captcha.js').then(({ mountCaptcha }) => mountCaptcha(document.querySelector('#registration-captcha'), {
+    action: 'register',
+    onChange(token, message) { submit.disabled = registrationSubmitting || !token; verificationStatus.textContent = message; },
+  })).then(widget => { registrationCaptcha = widget; })
+    .catch(error => { verificationStatus.textContent = error.message; verificationStatus.classList.add('error'); });
+}
 form?.addEventListener('submit', async event => {
   event.preventDefault();
+  if (registrationSubmitting) return;
   const status = document.querySelector('#form-status');
   const products = [...form.querySelectorAll('[name=product]:checked')].map(input => input.value);
   status.classList.remove('error');
   if (!products.length) { status.textContent = 'Choose at least one Yas app.'; status.classList.add('error'); form.querySelector('[name=product]').focus(); return; }
+  const captchaToken = registrationCaptcha?.getToken();
+  if (!captchaToken) { status.textContent = 'Please complete the human verification.'; status.classList.add('error'); return; }
   const button = form.querySelector('button[type=submit]');
+  registrationSubmitting = true;
   button.disabled = true; button.textContent = 'Saving your place…'; status.textContent = '';
   try {
-    const response = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: form.email.value, products, platform: form.platform.value, consent: form.consent.checked, website: form.website.value }), signal: AbortSignal.timeout(25000) });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error || 'Registration could not be saved. Please try again.');
+    const { submitFormJson } = await import('/form-request.js');
+    const data = await submitFormJson('/api/register', { email: form.email.value, products, platform: form.platform.value, consent: form.consent.checked, website: form.website.value, captchaToken });
     status.textContent = data.message; form.email.value = ''; form.consent.checked = false;
   } catch (error) { status.textContent = error.name === 'TimeoutError' ? 'The request took too long. Please try again.' : error.message || 'Please check your connection and try again.'; status.classList.add('error'); }
-  finally { button.disabled = false; button.textContent = 'Keep me in the loop ↗'; }
+  finally { registrationSubmitting = false; button.disabled = true; button.textContent = 'Keep me in the loop ↗'; registrationCaptcha.reset(); }
 });
