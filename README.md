@@ -31,3 +31,7 @@ The privacy page stores private access, deletion, and unsubscribe requests in `p
 ## Download hold
 
 All website downloads are marked Coming soon while release testing is completed. Download buttons are disabled, release dialogs contain no installer links, and legacy website installer URLs redirect to release status. Email registration remains available. GitHub source and existing release infrastructure are retained. Re-enable downloads only after testing is finished and release is authorized.
+
+## Experimental Mac Browser availability
+
+Only Yas Browser macOS 0.4.7 (Apple Silicon) is currently enabled on the website. It is clearly labeled experimental, lacks Windows feature parity, and is not Apple notarized. Windows 1.0 remains held for security review. Yas Mail and other products remain Coming soon. Windows launch preparation is retained separately in codex/browser-v1-launch.

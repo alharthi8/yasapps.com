@@ -10,8 +10,8 @@ function setPlatform(platform) {
   document.querySelectorAll('.windows-download').forEach(a => a.hidden = platform !== 'windows');
   document.querySelectorAll('.mac-download').forEach(a => a.hidden = platform !== 'macos');
   document.querySelectorAll('[data-platform-note]').forEach(note => note.hidden = note.dataset.platformNote !== platform);
-  document.querySelectorAll('[data-release-details]').forEach(button => {button.dataset.dialog = button.dataset.releaseDetails + (platform === 'macos' ? '-mac-details' : '-details');});
-  document.querySelectorAll('.release-meta').forEach(meta => { meta.children[0].textContent = "Coming soon"; meta.children[1].textContent = (platform === "macos" ? "macOS" : "Windows") + " · Testing in progress"; });
+  document.querySelectorAll('[data-release-details]').forEach(button => {button.dataset.dialog = button.dataset.releaseDetails + (platform === 'macos' ? '-mac-details' : '-details'); button.textContent=button.dataset.releaseDetails==='browser'&&platform==='macos'?'Preview details':'Testing details';});
+  document.querySelectorAll('.release-meta').forEach(meta => { const available=meta.closest('[data-download-card]').dataset.downloadCard==='browser'&&platform==='macos';meta.children[0].textContent=available?'v0.4.7 · Experimental':'Coming soon';meta.children[1].textContent=available?'Apple Silicon · Not notarized':(platform==='macos'?'macOS':'Windows')+' · Testing in progress'; });
 }
 setPlatform(currentPlatform);
 document.querySelectorAll('[data-platform]').forEach(button => button.addEventListener('click', () => setPlatform(button.dataset.platform)));
