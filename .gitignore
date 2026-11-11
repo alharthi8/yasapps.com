@@ -10,3 +10,5 @@ scripts/verify-registration.mjs
 
 .vercel
 .env*
+
+!.env.example

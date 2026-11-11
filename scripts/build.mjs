@@ -3,3 +3,4 @@ const html = await readFile('public/index.html', 'utf8');
 for (const file of ['public/styles.css', 'public/app.js', 'public/privacy.html', 'public/macos.html', 'public/downloads/SHA256SUMS.txt', 'public/assets/yasapps-symbol.svg']) await access(file);
 if (html.includes('href="#"')) throw new Error('Placeholder links found.');
 console.log('Yas Apps: static pages, assets, and installers ready.');
+for (const file of ['public/support.html', 'public/support.css', 'public/support.js', 'api/support.js', 'api/stripe-webhook.js']) await access(file);

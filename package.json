@@ -9,6 +9,11 @@
     "test": "node --test tests/*.test.mjs",
     "db:migrate": "node --env-file-if-exists=.env.local scripts/migrate.mjs"
   },
-  "engines": { "node": ">=22" },
-  "dependencies": { "@neondatabase/serverless": "^1.0.2" }
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
+    "stripe": "^23.1.0"
+  }
 }
