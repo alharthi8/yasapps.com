@@ -1,12 +1,12 @@
 # Yas Apps website
 
-Vercel-ready marketing website led by Yas Browser, the Yas Apps flagship. Yas Mail and other products remain in the pipeline. Plain HTML/CSS/JavaScript keeps the public pages small and buildless. A Node.js Vercel Function stores explicit email registrations in Neon PostgreSQL.
+Vercel-ready marketing website led by Yas Browser, the Yas Apps flagship. Yas Mail, Yas Connect, and Yas Agent remain in the pipeline. Plain HTML/CSS/JavaScript keeps the public pages small and buildless. A Node.js Vercel Function stores explicit email registrations in Neon PostgreSQL.
 
 ## Product positioning
 
-Yas Browser leads the hero, features, downloads, GitHub contribution path, and default newsletter preference. Built-in unified email is a planned browser feature, not a capability of the current preview. The separate Yas Mail product has a compact pipeline entry. Do not claim a worldwide first or publish comparative performance percentages without evidence.
+Yas Browser leads the hero, features, downloads, GitHub contribution path, and default newsletter preference. Built-in unified email is a planned browser feature, not a capability of the current preview. Yas Mail, Yas Connect, and Yas Agent each have coming-soon pipeline cards and explicit newsletter preferences. Do not claim a worldwide first or publish comparative performance percentages without evidence.
 
-The light futuristic interface uses an SVG orbital illustration, CSS float/orbit motion, and one-time scroll reveals. Reduced-motion preferences disable the animations. This website work does not implement email inside the browser or change release availability.
+The light futuristic interface uses an SVG orbital illustration, CSS float/orbit motion, and one-time scroll reveals. Reduced-motion preferences disable the animations. This website does not implement email inside the browser. The public launch status is Windows available now; macOS and the three pipeline products coming soon.
 
 ## Local development
 
@@ -18,9 +18,9 @@ Deploy this directory with framework preset **Other**. `vercel.json` sets the bu
 
 ## Releases
 
-Windows installers and experimental Apple Silicon macOS ZIPs are hosted as pinned, versioned GitHub Release assets in alharthi8/yas-browser and alharthi8/yas-mail. public/downloads/SHA256SUMS.txt records download hashes. Mac previews use separate macos-vVERSION prereleases and signed full-bundle updates. They are ad-hoc signed, not Apple notarized. Intel is not available. Native launch, Mail Keychain, signed installation, and damaged-package rejection checks passed before linking these packages. public/macos.html describes installation and remaining testing limits.
+The website offers one pinned GitHub Release asset: Yas Browser 0.4.9 for Windows x64. `public/downloads/SHA256SUMS.txt` records its hash. Existing experimental Mac packages on GitHub are not offered by the website; `public/macos.html` describes the upcoming Mac launch.
 
-Public app source is published at https://github.com/alharthi8/yas-browser and https://github.com/alharthi8/yas-mail. macos/ contains each separate Mac implementation; Windows source remains in the repository root. Only the experimental Mac Browser 0.4.7 package is linked for download. Windows Browser remains held for security review and release validation; Yas Mail has no public website download. Marketing does not claim a quantified performance advantage. The performance page explains architecture and benchmark limitations.
+Public app source is published at https://github.com/alharthi8/yas-browser and https://github.com/alharthi8/yas-mail. macos/ contains each separate Mac implementation; Windows source remains in the repository root. The website offers Yas Browser 0.4.9 for Windows x64. macOS, Yas Mail, Yas Connect, and Yas Agent are coming soon. The Windows 1.0 candidate is not offered; this published 0.4.9 release is a separate artifact. Marketing does not claim a quantified performance advantage. The performance page explains architecture and benchmark limitations.
 
 ## Email registration
 
@@ -34,13 +34,9 @@ See `UPDATE-PLAN.md` for the planned signed release pipeline. Website updates an
 
 The privacy page stores private access, deletion, and unsubscribe requests in `privacy_requests`. Review pending requests in the Neon console and verify ownership as appropriate before disclosing or changing personal data. No public list or automatic email is exposed.
 
-## Download hold
+## Website download availability
 
-All website downloads are marked Coming soon while release testing is completed. Download buttons are disabled, release dialogs contain no installer links, and legacy website installer URLs redirect to release status. Email registration remains available. GitHub source and existing release infrastructure are retained. Re-enable downloads only after testing is finished and release is authorized.
-
-## Experimental Mac Browser availability
-
-Only Yas Browser macOS 0.4.7 (Apple Silicon) is currently enabled on the website. It is clearly labeled experimental, lacks Windows feature parity, and is not Apple notarized. Windows 1.0 remains held for security review. Yas Mail and other products remain Coming soon. Windows launch preparation is retained separately in codex/browser-v1-launch.
+Only Yas Browser 0.4.9 for Windows x64 is enabled. macOS, Yas Mail, Yas Connect, and Yas Agent are coming soon. Earlier Mac experimental packages are not linked or admitted by the website download API. Windows launch preparation is retained separately in codex/browser-v1-launch.
 
 ## Stripe support payments
 
@@ -69,3 +65,9 @@ Registration uses action `register`. Available website download buttons go to `/
 Cloudflare tokens expire after five minutes and are intended for single use; replay detection has documented global propagation delays. The UI resets the widget after each submission. Public GitHub releases and repository source remain directly accessible; this protects the website's download flow rather than making open-source release files private. Signed desktop updates continue to use GitHub directly and do not encounter a CAPTCHA.
 
 Production verification on 11 November 2026: both real widgets completed verification; the download API accepted the purpose-bound browser token, and the downloaded Mac ZIP matched SHA-256 `6e21d9c93a58c7be1b769ac1a36fddc6f73ce0889bc2c417582ff65d6775e757`. A genuine registration token progressed to email-domain validation; the reserved `example.invalid` address was rejected before registration storage. Missing-token calls returned HTTP 400 and a forged-token download returned HTTP 403. All 24 current automated checks passed. The async script loader uses its load event, rather than calling `turnstile.ready()` on an async script.
+
+## Windows-first launch status — 17 November 2026
+
+The launch message is Windows available now, macOS coming soon, and Yas Mail / Yas Connect / Yas Agent coming soon. `public/releases.js` supplies frontend availability and platform metadata; `lib/downloads.js` pins the allowed Windows release asset. API/frontend parity is covered by the release-status test. CAPTCHA tokens are bound to `browser-windows`; old Mac download URLs cannot obtain an asset through the website.
+
+Published installer: `Yas-0.4.9-Setup-x64.exe`, 25,663,061 bytes, SHA-256 `c073a24cb72784e2892e029c63595c07d6a73faf5bec966f21cf4a80e7c1287c`. The fetched bytes matched GitHub release digest and CI evidence, and a local Defender custom scan completed with no matching threat records. The installer remains unsigned for Windows Authenticode. The installer was not executed during website verification. Unified email is in development and is not included in this download.

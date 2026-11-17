@@ -1,2 +1,1 @@
-6e21d9c93a58c7be1b769ac1a36fddc6f73ce0889bc2c417582ff65d6775e757  Yas-Browser-0.4.7-macOS-Apple-Silicon-preview.zip
-6e21d9c93a58c7be1b769ac1a36fddc6f73ce0889bc2c417582ff65d6775e757  yas-browser-ota-0.4.7-aarch64-apple-darwin.zip
+c073a24cb72784e2892e029c63595c07d6a73faf5bec966f21cf4a80e7c1287c  Yas-0.4.9-Setup-x64.exe

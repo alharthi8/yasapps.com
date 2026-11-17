@@ -9,7 +9,7 @@ if (!reducedMotion.matches && 'IntersectionObserver' in window) {
       observer.unobserve(entry.target);
     }
   }, { threshold: 0.08 });
-  document.querySelectorAll('.product-panel, .email-vision, .engineering-grid article, .download-grid, .pipeline-section, .community-copy, .community-support, .register-inner, .faq-section').forEach(element => {
+  document.querySelectorAll('.product-panel, .play-features article, .email-vision, .engineering-grid article, .download-grid, .pipeline-section, .community-copy, .community-support, .register-inner, .faq-section').forEach(element => {
     element.classList.add('reveal');
     observer.observe(element);
   });

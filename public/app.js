@@ -1,20 +1,24 @@
+import { BROWSER_RELEASES } from './releases.js';
+
 const menu = document.querySelector('.menu-toggle');
 const nav = document.querySelector('#navigation');
 menu?.addEventListener('click', () => { const open = menu.getAttribute('aria-expanded') !== 'true'; menu.setAttribute('aria-expanded', String(open)); menu.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation'); nav.classList.toggle('open', open); });
 nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); menu.setAttribute('aria-expanded', 'false'); menu.setAttribute('aria-label', 'Open navigation'); }));
 
-let currentPlatform = /Mac/i.test(navigator.platform) ? "macos" : "windows";
+let currentPlatform = 'windows';
 function setPlatform(platform) {
   currentPlatform = platform;
   document.querySelectorAll('[data-platform]').forEach(button => { const selected = button.dataset.platform === platform; button.classList.toggle('selected', selected); button.setAttribute('aria-pressed', String(selected)); });
   document.querySelectorAll('.windows-download').forEach(a => a.hidden = platform !== 'windows');
   document.querySelectorAll('.mac-download').forEach(a => a.hidden = platform !== 'macos');
   document.querySelectorAll('[data-platform-note]').forEach(note => note.hidden = note.dataset.platformNote !== platform);
-  document.querySelectorAll('[data-release-details]').forEach(button => {button.dataset.dialog = button.dataset.releaseDetails + (platform === 'macos' ? '-mac-details' : '-details'); button.textContent=button.dataset.releaseDetails==='browser'&&platform==='macos'?'Preview details':'Testing details';});
-  document.querySelectorAll('.release-meta').forEach(meta => { const available=meta.closest('[data-download-card]').dataset.downloadCard==='browser'&&platform==='macos';meta.children[0].textContent=available?'v0.4.7 · Experimental':'Coming soon';meta.children[1].textContent=available?'Apple Silicon · Not notarized':(platform==='macos'?'macOS':'Windows')+' · Testing in progress'; });
+  const release = BROWSER_RELEASES[platform];
+  document.querySelectorAll('[data-release-details]').forEach(button => { button.dataset.dialog = 'browser' + (platform === 'macos' ? '-mac-details' : '-details'); button.textContent = release.available ? 'Release details' : 'What’s next?'; });
+  document.querySelectorAll('.release-meta').forEach(meta => { meta.children[0].textContent = release.available ? `v${release.version} · ${release.label}` : release.label; meta.children[1].textContent = release.platformLabel; });
 }
 setPlatform(currentPlatform);
 document.querySelectorAll('[data-platform]').forEach(button => button.addEventListener('click', () => setPlatform(button.dataset.platform)));
+document.querySelectorAll('[data-show-platform]').forEach(link => link.addEventListener('click', () => setPlatform(link.dataset.showPlatform)));
 document.querySelectorAll('[data-select-product]').forEach(a => a.addEventListener('click', () => { setPlatform(currentPlatform); document.querySelectorAll('[data-download-card]').forEach(card => card.classList.toggle('highlight', card.dataset.downloadCard === a.dataset.selectProduct)); }));
 document.querySelectorAll('[data-register-product]').forEach(a => a.addEventListener('click', () => { document.querySelector('#platform').value = currentPlatform; document.querySelectorAll('[name=product]').forEach(input => input.checked = input.value === a.dataset.registerProduct); }));
 
