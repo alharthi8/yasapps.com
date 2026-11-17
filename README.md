@@ -1,6 +1,12 @@
 # Yas Apps website
 
-Vercel-ready marketing website for Yas Browser and Yas Mail. Plain HTML/CSS/JavaScript keeps the public pages small and buildless. A Node.js Vercel Function stores explicit email registrations in Neon PostgreSQL.
+Vercel-ready marketing website led by Yas Browser, the Yas Apps flagship. Yas Mail and other products remain in the pipeline. Plain HTML/CSS/JavaScript keeps the public pages small and buildless. A Node.js Vercel Function stores explicit email registrations in Neon PostgreSQL.
+
+## Product positioning
+
+Yas Browser leads the hero, features, downloads, GitHub contribution path, and default newsletter preference. Built-in unified email is a planned browser feature, not a capability of the current preview. The separate Yas Mail product has a compact pipeline entry. Do not claim a worldwide first or publish comparative performance percentages without evidence.
+
+The light futuristic interface uses an SVG orbital illustration, CSS float/orbit motion, and one-time scroll reveals. Reduced-motion preferences disable the animations. This website work does not implement email inside the browser or change release availability.
 
 ## Local development
 
@@ -14,7 +20,7 @@ Deploy this directory with framework preset **Other**. `vercel.json` sets the bu
 
 Windows installers and experimental Apple Silicon macOS ZIPs are hosted as pinned, versioned GitHub Release assets in alharthi8/yas-browser and alharthi8/yas-mail. public/downloads/SHA256SUMS.txt records download hashes. Mac previews use separate macos-vVERSION prereleases and signed full-bundle updates. They are ad-hoc signed, not Apple notarized. Intel is not available. Native launch, Mail Keychain, signed installation, and damaged-package rejection checks passed before linking these packages. public/macos.html describes installation and remaining testing limits.
 
-Public app source is published at https://github.com/alharthi8/yas-browser and https://github.com/alharthi8/yas-mail. macos/ contains each separate Mac implementation; Windows source remains in the repository root. The website links Windows Browser 0.4.6/Mail 0.3.1 and Mac Browser 0.4.7/Mail 0.3.2. Marketing does not claim a quantified performance advantage. The performance page explains architecture and benchmark limitations.
+Public app source is published at https://github.com/alharthi8/yas-browser and https://github.com/alharthi8/yas-mail. macos/ contains each separate Mac implementation; Windows source remains in the repository root. Only the experimental Mac Browser 0.4.7 package is linked for download. Windows Browser remains held for security review and release validation; Yas Mail has no public website download. Marketing does not claim a quantified performance advantage. The performance page explains architecture and benchmark limitations.
 
 ## Email registration
 
